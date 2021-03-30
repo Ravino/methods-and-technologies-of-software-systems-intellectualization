@@ -1,5 +1,5 @@
 <template lang="pug">
-v-toolbar(app dark)
+v-app-bar(app dark)
   v-tabs(grow)
     v-tab(@click="checkout('editer')") Редактор
     v-tab(@click="checkout('classifier')") Классификатор

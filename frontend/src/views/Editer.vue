@@ -1,7 +1,7 @@
 <template lang="pug">
 v-container.wrp
-  Input
-  Table
+  Input(typeView="editer")
+  Table(typeView="editer")
 </template>
 
 
@@ -15,7 +15,7 @@ import Table from '../components/Table.vue';
   name: "Editer",
   components: {
     Input,
-    Table
+    Table,
   }
 })
 
