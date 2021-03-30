@@ -12,29 +12,34 @@
           :rules="nameRules"
           v-model="items[i]"
         )
-      v-btn.form-btn(dark rounded @click="validate") {{"Добавить"}}
+      v-btn.form-btn(dark rounded @click="typeView='editer' ? validate() :  validate()") {{"Добавить"}}
 </template>
 
 
 <script lang="ts">
+import { it } from 'mocha';
 import Vue from 'vue';
 
 
 export default Vue.extend({
   name: 'Input',
 
+  props: {
+    typeView: String,
+  },
+
   data: () => ({
-      heads: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-      valid: true,
+      heads: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+      valid: false,
       nameRules: [(v: any) => !!v || 'Name is required'],
       items: []
   }),
 
   methods: {
     validate: function() {
-//      this.$refs.form.validate();
+      (this.$refs.form as Vue & { validate: () => boolean }).validate();
 
-      if (this.valid) {
+      if (this.valid && this.items.length == 19) {
         this.$store.dispatch('appendElement', this.items);
         this.items = [];
       }

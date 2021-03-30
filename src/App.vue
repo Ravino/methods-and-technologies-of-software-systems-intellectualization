@@ -17,3 +17,9 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style lang="stylus" scoped>
+  #app {
+    background-color #3e3d42
+  }
+</style>
