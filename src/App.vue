@@ -1,25 +1,21 @@
 <template lang="pug">
-v-app
-  toolbar
-  v-main
-    router-view
+  v-app( dark )
+    appbar
+    v-main( dark )
 </template>
 
+<script>
+import Appbar from './components/Appbar.vue';
 
-<script lang="ts">
-import Vue from 'vue';
-import Toolbar from './components/Toolbar.vue';
-
-export default Vue.extend({
+export default {
   name: 'App',
-  components: {
-    Toolbar
-  }
-});
-</script>
 
-<style lang="stylus" scoped>
-  #app {
-    background-color #3e3d42
-  }
-</style>
+  components: {
+    Appbar,
+  },
+
+  data: () => ({
+    //
+  }),
+};
+</script>
