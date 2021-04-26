@@ -2,6 +2,7 @@
   v-app( dark )
     appbar
     v-main( dark )
+      router-view
 </template>
 
 <script>
@@ -19,3 +20,9 @@ export default {
   }),
 };
 </script>
+
+<style lang="stylus" scoped>
+  #app {
+    background-color #212121
+  }
+</style>
