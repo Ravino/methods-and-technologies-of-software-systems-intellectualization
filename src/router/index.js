@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import SignsEditor from '../views/SignsEditor.vue';
 import classEditor from '../views/ClassEditor.vue';
+import ClassWithSigns from '../views/ClassWithSigns.vue';
 
 Vue.use(VueRouter);
 
@@ -19,6 +20,12 @@ const routes = [
     path: '/signsEditor',
     name: 'signsEditor',
     component: SignsEditor,
+  },
+
+  {
+    path: '/classWithSigns',
+    name: 'classWithSigns',
+    component: ClassWithSigns,
   },
 ];
 

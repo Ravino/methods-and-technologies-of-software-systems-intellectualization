@@ -8,9 +8,7 @@
           v-list-item-title Классы средств передвижения
         v-list-item( @click="route('signsEditor')" )
           v-list-item-title Признаки
-        v-list-item( )
-          v-list-item-title Возможные значения признаков
-        v-list-item( )
+        v-list-item( @click="route('classWithSigns')" )
           v-list-item-title Признаковое описание классов
         v-list-item( )
           v-list-item-title Значения признаков для классов

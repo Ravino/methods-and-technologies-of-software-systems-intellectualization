@@ -44,7 +44,20 @@
           v-list-item-action
             v-icon( @click="removeSign(index)" ) mdi-delete
           v-list-item-action
-            v-icon() mdi-lead-pencil
+            v-icon(
+              @click="item.visibleFields = !item.visibleFields"
+            ) {{item.visibleFields ? 'mdi-check' : 'mdi-lead-pencil' }}
+
+        v-expand-transition
+          v-row(v-show="item.visibleFields" no-gutters)
+            v-text-field.value-field(
+              placeholder="Мин. значение"
+              hide-details
+            )
+            v-text-field.value-field(
+              placeholder="Макс. значение"
+              hide-details
+            )
 </template>
 
 <script>
@@ -57,6 +70,7 @@ export default {
       signName: null,
       sortedSigns: [],
       searchMask: null,
+      menu: false,
     };
   },
 
@@ -141,5 +155,11 @@ export default {
   .signs-card {
     width 20%
     margin 5px
+  }
+
+  .value-field {
+    min-width 50%
+    width 50%
+    padding 5px
   }
 </style>

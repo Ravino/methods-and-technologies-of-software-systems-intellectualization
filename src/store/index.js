@@ -18,7 +18,9 @@ export default new Vuex.Store({
     },
 
     addSign(state, data) {
-      state.signs.push(data);
+      const sign = Object.assign(data, {});
+      sign.visibleFields = false;
+      state.signs.push(sign);
     },
 
     removeSign(state, index) {
