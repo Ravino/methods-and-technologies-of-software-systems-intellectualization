@@ -10,6 +10,8 @@ export default new Vuex.Store({
   },
   mutations: {
     addClass(state, data) {
+      const newClass = Object.assign(data, {});
+      newClass.signs = [];
       state.classes.push(data);
     },
 
@@ -25,6 +27,11 @@ export default new Vuex.Store({
 
     removeSign(state, index) {
       state.signs.splice(index, 1);
+    },
+
+    addSignToClass(state, payload) {
+      const item = state.classes.find((x) => x.name === payload.className);
+      item.signs.push(payload.sign);
     },
   },
   actions: {
@@ -42,6 +49,10 @@ export default new Vuex.Store({
 
     removeSign({ commit }, index) {
       commit('removeSign', index);
+    },
+
+    addSignToClass({ commit }, payload) {
+      commit('addSignToClass', payload);
     },
   },
   getters: {
