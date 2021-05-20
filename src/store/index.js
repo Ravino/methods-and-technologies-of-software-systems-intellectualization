@@ -8,10 +8,16 @@ export default new Vuex.Store({
     classes: [],
     signs: [],
   },
+
   mutations: {
+    markerBrokenClass(state, data) {
+      state.classes[data.position].broken = data.flag;
+    },
+
     addClass(state, data) {
       const newClass = Object.assign(data, {});
       newClass.signs = [];
+      newClass.broken = false;
       state.classes.push(data);
     },
 
@@ -34,7 +40,12 @@ export default new Vuex.Store({
       item.signs.push(payload.sign);
     },
   },
+
   actions: {
+    markerBrokenClass({ commit }, data) {
+      commit('markerBrokenClass', data);
+    },
+
     addClass({ commit }, data) {
       commit('addClass', data);
     },

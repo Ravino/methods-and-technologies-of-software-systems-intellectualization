@@ -10,7 +10,7 @@
           v-list-item-title Признаки
         v-list-item( @click="route('classWithSigns')" )
           v-list-item-title Признаковое описание классов
-        v-list-item( )
+        v-list-item( @click="route('checkKnowledgeBase')" )
           v-list-item-title Проверка базы знаний
     v-btn( text ) Определить класс
 </template>

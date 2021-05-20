@@ -1,0 +1,114 @@
+<template lang="pug">
+  .check-knowledge-base
+    v-row( justify="center" no-gutters align="center" )
+      v-btn.btn-check(
+        text
+        @click="checking"
+      ) Проверить
+        v-icon( right ) {{expandAddField ? 'mdi-close': 'mdi-plus'}}
+
+    v-row.class-card-wrp(
+      justify="center"
+      no-gutters
+      align="center"
+      :style="!expandAddField ? {marginTop: '12px'} : ''"
+    )
+      v-card.class-card( dark v-for="( item, index ) in sortedClasses" :key="item.name" v-show="item.broken")
+        v-list-item
+          v-list-item-content
+            v-list-item-title {{item.name}}
+          v-list-item-action
+            v-icon(@click="removeClass(index)") mdi-delete
+</template>
+
+
+<script>
+export default {
+  name: 'check-knowledge-base',
+
+  data() {
+    return {
+      expandAddField: false,
+      className: null,
+      sortedClasses: [],
+      searchMask: null,
+    };
+  },
+
+  methods: {
+    checking() {
+
+      for(let i = 0; i < this.classes.length; i++) {
+        this.$store.dispatch('markerBrokenClass', { position: i, flag: true })
+      }
+
+
+      return null;
+    },
+  },
+
+  computed: {
+    classes() {
+      return this.$store.getters.classes;
+    },
+  },
+
+  watch: {
+    expandAddField() {
+      this.$nextTick();
+      if (this.expandAddField) {
+        setTimeout(() => {
+          this.$refs.addField.focus();
+        }, 100);
+      }
+    },
+
+    classes() {
+      if (!this.searchMask) {
+        this.sortedClasses = this.classes;
+      }
+    },
+
+    searchMask() {
+      this.sortedClasses = [];
+
+      this.classes.forEach((element) => {
+        if (element.name.toLowerCase().includes(this.searchMask.trim().toLowerCase())) {
+          this.sortedClasses.push(element);
+        }
+      });
+    },
+  },
+
+  created() {
+    this.sortedClasses = this.classes;
+  },
+};
+</script>
+
+<style lang="stylus" scoped>
+  .check-knowledge-base {
+    margin-top 30px
+  }
+
+  .search-field {
+    width 30%
+    max-width 30%
+  }
+
+  .btn-check {
+    color #FFF3E0 !important
+    width 30%
+    margin-top 12px
+  }
+
+  .add-field {
+    width 30% !important
+    max-width 30% !important
+  }
+
+  .class-card {
+    width 20%
+    margin 5px
+  }
+</style>

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import SignsEditor from '../views/SignsEditor.vue';
 import classEditor from '../views/ClassEditor.vue';
 import ClassWithSigns from '../views/ClassWithSigns.vue';
+import CheckKnowledgeBase from '../views/CheckKnowledgeBase.vue';
 
 Vue.use(VueRouter);
 
@@ -26,6 +27,11 @@ const routes = [
     path: '/classWithSigns',
     name: 'classWithSigns',
     component: ClassWithSigns,
+  },
+  {
+    path: '/checkKnowledgeBase',
+    name: 'checkKnowledgeBase',
+    component: CheckKnowledgeBase,
   },
 ];
 
