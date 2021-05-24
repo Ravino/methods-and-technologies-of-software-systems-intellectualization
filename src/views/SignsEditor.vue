@@ -50,13 +50,11 @@
 
         v-expand-transition
           v-row(v-show="item.visibleFields" no-gutters)
-            v-text-field.value-field(
-              placeholder="Мин. значение"
+            v-overflow-btn(
+              :items="types"
               hide-details
-            )
-            v-text-field.value-field(
-              placeholder="Макс. значение"
-              hide-details
+              dense
+              v-model="item.type"
             )
 </template>
 
@@ -96,6 +94,10 @@ export default {
     signs() {
       return this.$store.getters.signs;
     },
+
+    types() {
+      return this.$store.getters.types;
+    },
   },
 
   watch: {
@@ -127,6 +129,7 @@ export default {
 
   created() {
     this.sortedSigns = this.signs;
+    console.log(this.sortedSigns);
   },
 };
 </script>

@@ -2,10 +2,10 @@
   .check-knowledge-base
     v-row( justify="center" no-gutters align="center" )
       v-btn.btn-check(
-        text
+        dark
         @click="checking"
       ) Проверить
-        v-icon( right ) {{expandAddField ? 'mdi-close': 'mdi-plus'}}
+        v-icon( right ) mdi-check
 
     v-row.class-card-wrp(
       justify="center"
@@ -13,14 +13,13 @@
       align="center"
       :style="!expandAddField ? {marginTop: '12px'} : ''"
     )
-      v-card.class-card( dark v-for="( item, index ) in sortedClasses" :key="item.name" v-show="item.broken")
+      v-card.class-card( dark v-for="( item, index ) in classes" :key="item.name"
+      v-show="item.broken")
         v-list-item
           v-list-item-content
             v-list-item-title {{item.name}}
-          v-list-item-action
-            v-icon(@click="removeClass(index)") mdi-delete
+            v-list-item-subtitle {{item.broken ? 'Не пройдена': 'Пройдена'}}
 </template>
-
 
 <script>
 export default {
@@ -37,11 +36,9 @@ export default {
 
   methods: {
     checking() {
-
-      for(let i = 0; i < this.classes.length; i++) {
-        this.$store.dispatch('markerBrokenClass', { position: i, flag: true })
+      for (let i = 0; i < this.classes.length; i += 1) {
+        this.$store.dispatch('markerBrokenClass', { position: i, flag: true });
       }
-
 
       return null;
     },

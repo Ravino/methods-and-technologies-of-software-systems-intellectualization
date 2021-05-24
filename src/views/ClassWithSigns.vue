@@ -34,7 +34,8 @@
             v-text-field(
               solo
               light
-              placeholder="Тип"
+              readonly
+              :value="item.type"
             )
             v-text-field(
               solo

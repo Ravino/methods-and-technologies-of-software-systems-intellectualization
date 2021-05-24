@@ -7,6 +7,12 @@ export default new Vuex.Store({
   state: {
     classes: [],
     signs: [],
+    types: [
+      'range',
+      'enum',
+      'number',
+      'boolean',
+    ],
   },
 
   mutations: {
@@ -28,6 +34,8 @@ export default new Vuex.Store({
     addSign(state, data) {
       const sign = Object.assign(data, {});
       sign.visibleFields = false;
+      sign.values = [0, 0];
+      sign.type = null;
       state.signs.push(sign);
     },
 
@@ -69,5 +77,6 @@ export default new Vuex.Store({
   getters: {
     classes: (state) => state.classes,
     signs: (state) => state.signs,
+    types: (state) => state.types,
   },
 });
