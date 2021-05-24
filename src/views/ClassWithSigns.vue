@@ -35,17 +35,19 @@
               solo
               light
               readonly
-              :value="item.type"
+              :value="item.type || 'none'"
             )
             v-text-field(
               solo
               light
               placeholder="Мин. значение"
+              v-model="item.values[0]"
             )
             v-text-field(
               solo
               light
               placeholder="Макс. значение"
+              v-model="item.values[1]"
             )
 </template>
 

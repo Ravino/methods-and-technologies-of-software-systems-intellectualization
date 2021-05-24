@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     classes: [],
+    signsForClassifier: [],
     signs: [],
     types: [
       'range',
@@ -47,6 +48,11 @@ export default new Vuex.Store({
       const item = state.classes.find((x) => x.name === payload.className);
       item.signs.push(payload.sign);
     },
+
+    addSignsForClassifier(state, signs) {
+      console.log(signs);
+      state.signsForClassifier = signs;
+    },
   },
 
   actions: {
@@ -72,6 +78,10 @@ export default new Vuex.Store({
 
     addSignToClass({ commit }, payload) {
       commit('addSignToClass', payload);
+    },
+
+    addSignsForClassifier({ commit }, signs) {
+      commit('addSignsForClassifier', signs);
     },
   },
   getters: {
