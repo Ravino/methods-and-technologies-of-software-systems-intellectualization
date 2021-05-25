@@ -42,7 +42,7 @@ export default {
           continue;
         }
 
-        for(let j = 0; j < this.classes.signs.length; j++) {
+        for(let j = 0; j < this.classes[i].signs.length; j++) {
           if(!this.types.includes(this.classes[i].signs[j].type)) {
             this.$store.dispatch('markerBrokenClass', { position: i, flag: true });
             this.$store.dispatch('markerBrokenSignsForClassifier', {positionClass: i, positionSign: j, flag: true, comment: 'invalidType'});
