@@ -35,15 +35,39 @@
               solo
               light
               readonly
-              :value="item.type || 'none'"
+              :value="item.type || 'None'"
+            )
+            v-container(
+              v-show="!item.type"
+            ) Тип признака не определён, значение не может быть установлено
+            v-checkbox(
+              v-show="item.type=='boolean'"
+              v-model="item.value[0]"
+              :label="`В наличии`"
             )
             v-text-field(
+              v-show="item.type=='number'"
+              solo
+              light
+              placeholder="Цифровое значение"
+              v-model="item.value[0]"
+            )
+            v-text-field(
+              v-show="item.type=='enum'"
+              solo
+              light
+              placeholder="Перечислимое строковое значение"
+              v-model="item.value[0]"
+            )
+            v-text-field(
+              v-show="item.type=='range'"
               solo
               light
               placeholder="Мин. значение"
               v-model="item.value[0]"
             )
             v-text-field(
+              v-show="item.type=='range'"
               solo
               light
               placeholder="Макс. значение"
@@ -77,7 +101,7 @@ export default {
     selectedSign() {
       this.$store.dispatch('addSignToClass', {
         className: this.selectedClass.name,
-        sign: { ...this.selectedSign },
+        sign: JSON.stringify(this.selectedSign),
       });
     },
   },

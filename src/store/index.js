@@ -45,7 +45,7 @@ export default new Vuex.Store({
     addSign(state, data) {
       const sign = Object.assign(data, {});
       sign.visibleFields = false;
-      sign.value = [0, 0];
+      sign.value = [];
       sign.type = null;
       sign.broken = false;
       sign.comment = null;
@@ -58,7 +58,7 @@ export default new Vuex.Store({
 
     addSignToClass(state, payload) {
       const item = state.classes.find((x) => x.name === payload.className);
-      item.signs.push(payload.sign);
+      item.signs.push(JSON.parse(payload.sign));
     },
 
     addSignsForClassifier(state, signs) {
