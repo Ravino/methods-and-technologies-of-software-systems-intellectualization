@@ -74,6 +74,22 @@ export default new Vuex.Store({
       state.classes[data.positionClass].signs[data.positionSign].broken = data.flag;
       state.classes[data.positionClass].signs[data.positionSign].comment = data.comment;
     },
+
+    addCorrectClass(state, data) {
+      state.correctClasses.push(data);
+    },
+
+    addPotentialClass(state, data) {
+      state.potentialClasses.push(data);
+    },
+
+    recoveryCorrectClass(state, data) {
+      state.correctClasses = [];
+    },
+
+    recoveryPotentialClass(state, data) {
+      state.potentialClasses = [];
+    },
   },
 
   actions: {
@@ -108,12 +124,30 @@ export default new Vuex.Store({
     addSignsForClassifier({ commit }, signs) {
       commit('addSignsForClassifier', signs);
     },
+
+    addCorrectClass({ commit }, data) {
+      commit('addCorrectClass', data);
+    },
+
+    addPotentialClass({ commit }, data) {
+      commit('addPotentialClass', data);
+    },
+
+    recoveryCorrectClass({ commit }, data) {
+      commit('recoveryCorrectClass', data);
+    },
+
+    recoveryPotentialClass({ commit }, data) {
+      commit('recoveryPotentialClass', data);
+    },
   },
+
   getters: {
     classes: (state) => state.classes,
     signs: (state) => state.signs,
     types: (state) => state.types,
     correctClasses: (state) => state.correctClasses,
     potentialClasses: (state) => state.potentialClasses,
+    signsForClassifier: (state) => state.signsForClassifier
   },
 });

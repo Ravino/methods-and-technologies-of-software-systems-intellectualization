@@ -49,15 +49,56 @@ export default {
 
   methods: {
     search() {
+      this.$store.dispatch('addSignsForClassifier', []);
       this.$store.dispatch('addSignsForClassifier', this.selectedSignsList);
+      this.$store.dispatch('recoveryCorrectClass', []);
+      this.$store.dispatch('recoveryPotentialClass', []);
+      this.handler();
+      this.selectedSignsList = [];
       this.$router.push({ name: 'classifierResult' });
     },
+
+    handler() {
+
+      for(let signForClassifier of this.signsForClassifier) {
+
+        for(let currentClass of this.classes) {
+          if(!currentClass.signs.length) {
+            this.$store.dispatch('addPotentialClass', currentClass);
+            continue;
+          }
+
+          for(let sign of currentClass.signs) {
+
+            if(sign.name == signForClassifier.name && sign.type == signForClassifier.type && JSON.stringify(sign.value) == JSON.stringify(signForClassifier.value)) {
+              this.$store.dispatch('addCorrectClass', currentClass);
+              continue;
+            }
+
+            if(sign.name == signForClassifier.name && sign.type == signForClassifier.type) {
+              this.$store.dispatch('addPotentialClass', currentClass);
+              continue;
+            }
+
+            if(sign.name == signForClassifier.name) {
+              this.$store.dispatch('addPotentialClass', currentClass);
+              continue;
+            }
+          }
+        }
+      }
+
+      return null;
+    }
   },
 
   computed: {
     signs() {
       return this.$store.getters.signs;
     },
+    signsForClassifier() {
+      return this.$store.getters.signsForClassifier;
+    }
   },
 
   watch: {
