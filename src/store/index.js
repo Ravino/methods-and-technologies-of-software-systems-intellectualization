@@ -18,6 +18,10 @@ export default new Vuex.Store({
 
   mutations: {
     markerBrokenClass(state, data) {
+      if(state.classes[data.position].broken == data.flag) {
+        return null;
+      }
+
       state.classes[data.position].broken = data.flag;
     },
 
@@ -37,6 +41,7 @@ export default new Vuex.Store({
       sign.visibleFields = false;
       sign.values = [0, 0];
       sign.type = null;
+      sign.broken = false;
       state.signs.push(sign);
     },
 
@@ -50,14 +55,26 @@ export default new Vuex.Store({
     },
 
     addSignsForClassifier(state, signs) {
-      console.log(signs);
       state.signsForClassifier = signs;
+    },
+
+    markerBrokenSignsForClassifier(state, data) {
+      if(state.classes[data.positionClass].signs[data.positionSign].broken == data.flag) {
+        return null;
+      }
+
+
+      state.classes[data.positionClass].signs[data.positionSign].broken = data.flag;
     },
   },
 
   actions: {
     markerBrokenClass({ commit }, data) {
       commit('markerBrokenClass', data);
+    },
+
+    markerBrokenSignsForClassifier({ commit }, data) {
+      commit('markerBrokenSignsForClassifier', data);
     },
 
     addClass({ commit }, data) {

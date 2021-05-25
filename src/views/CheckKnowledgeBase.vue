@@ -37,7 +37,16 @@ export default {
   methods: {
     checking() {
       for (let i = 0; i < this.classes.length; i += 1) {
-        this.$store.dispatch('markerBrokenClass', { position: i, flag: true });
+        if(!this.classes[i].signs.length) {
+          continue;
+        }
+
+        for(let j = 0; j < this.classes.signs.length; j++) {
+          if(!this.types.includes(this.classes[i].signs[j].type)) {
+            this.$store.dispatch('markerBrokenClass', { position: i, flag: true });
+            this.$store.dispatch('markerBrokenSignsForClassifier', {positionClass: i, positionSign: j, flag: true});
+          }
+        }
       }
 
       return null;
@@ -47,6 +56,10 @@ export default {
   computed: {
     classes() {
       return this.$store.getters.classes;
+    },
+
+    types() {
+      return this.$store.getters.types;
     },
   },
 
