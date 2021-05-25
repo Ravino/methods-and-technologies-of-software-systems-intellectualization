@@ -28,9 +28,10 @@
 
         v-divider.my-divider(v-show="selectedClass.signs && selectedClass.signs.length")
 
-        v-list-item( v-for="item in selectedClass.signs" :key="item.name" )
+        v-list-item( v-for="( item, index ) in selectedClass.signs" :key="item.name" )
           v-list-item-title {{item.name}}
           v-list-item-action
+            v-icon(@click="removeSignToClass(selectedClass, index)") mdi-delete
             v-text-field(
               solo
               light
@@ -85,6 +86,12 @@ export default {
       selectedSign: null,
       clsSigns: [],
     };
+  },
+
+  methods: {
+    removeSignToClass(currentClass, signPosition) {
+      this.$store.dispatch('removeSignToClass', { className: currentClass.name, signPosition: signPosition });
+    },
   },
 
   computed: {

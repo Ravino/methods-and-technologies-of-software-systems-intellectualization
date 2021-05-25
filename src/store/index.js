@@ -61,6 +61,11 @@ export default new Vuex.Store({
       item.signs.push(JSON.parse(payload.sign));
     },
 
+    removeSignToClass(state, data) {
+      const item = state.classes.find(x => x.name === data.className);
+      item.signs.splice(data.signPosition, 1);
+    },
+
     addSignsForClassifier(state, signs) {
       state.signsForClassifier = signs;
     },
@@ -119,6 +124,10 @@ export default new Vuex.Store({
 
     addSignToClass({ commit }, payload) {
       commit('addSignToClass', payload);
+    },
+
+    removeSignToClass({ commit }, data) {
+      commit('removeSignToClass', data);
     },
 
     addSignsForClassifier({ commit }, signs) {
