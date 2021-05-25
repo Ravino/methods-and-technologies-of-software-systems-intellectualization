@@ -60,32 +60,44 @@ export default {
 
     handler() {
 
-      for(let signForClassifier of this.signsForClassifier) {
+      for(let currentClass of this.classes) {
 
-        for(let currentClass of this.classes) {
-          if(!currentClass.signs.length) {
-            this.$store.dispatch('addPotentialClass', currentClass);
-            continue;
-          }
+        if(!currentClass.signs.length) {
+          this.$store.dispatch('addPotentialClass', currentClass);
+          continue;
+        }
+
+
+        let flag = false;
+        for(let signForClassifier of this.signsForClassifier) {
 
           for(let sign of currentClass.signs) {
 
             if(sign.name == signForClassifier.name && sign.type == signForClassifier.type && JSON.stringify(sign.value) == JSON.stringify(signForClassifier.value)) {
-              this.$store.dispatch('addCorrectClass', currentClass);
-              continue;
+              flag = true;
+              break;
             }
 
             if(sign.name == signForClassifier.name && sign.type == signForClassifier.type) {
-              this.$store.dispatch('addPotentialClass', currentClass);
-              continue;
+              flag = false;
+              break;
             }
 
             if(sign.name == signForClassifier.name) {
-              this.$store.dispatch('addPotentialClass', currentClass);
-              continue;
+              flag = false;
+              break;
             }
           }
         }
+
+
+        if(flag) {
+          this.$store.dispatch('addCorrectClass', currentClass);
+          continue;
+        }
+
+
+        this.$store.dispatch('addPotentialClass', currentClass);
       }
 
       return null;
