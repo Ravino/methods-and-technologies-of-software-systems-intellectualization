@@ -14,11 +14,14 @@ export default new Vuex.Store({
       'number',
       'boolean',
     ],
+    potentialClasses: [],
+    correctClasses: [],
   },
 
   mutations: {
+    // eslint-disable-next-line consistent-return
     markerBrokenClass(state, data) {
-      if(state.classes[data.position].broken == data.flag) {
+      if (state.classes[data.position].broken === data.flag) {
         return null;
       }
 
@@ -30,6 +33,7 @@ export default new Vuex.Store({
       const newClass = Object.assign(data, {});
       newClass.signs = [];
       newClass.broken = false;
+      newClass.result = false;
       newClass.comment = null;
       state.classes.push(data);
     },
@@ -41,7 +45,7 @@ export default new Vuex.Store({
     addSign(state, data) {
       const sign = Object.assign(data, {});
       sign.visibleFields = false;
-      sign.values = [0, 0];
+      sign.value = [0, 0];
       sign.type = null;
       sign.broken = false;
       sign.comment = null;
@@ -61,11 +65,11 @@ export default new Vuex.Store({
       state.signsForClassifier = signs;
     },
 
+    // eslint-disable-next-line consistent-return
     markerBrokenSignsForClassifier(state, data) {
-      if(state.classes[data.positionClass].signs[data.positionSign].broken == data.flag) {
+      if (state.classes[data.positionClass].signs[data.positionSign].broken === data.flag) {
         return null;
       }
-
 
       state.classes[data.positionClass].signs[data.positionSign].broken = data.flag;
       state.classes[data.positionClass].signs[data.positionSign].comment = data.comment;
@@ -109,5 +113,7 @@ export default new Vuex.Store({
     classes: (state) => state.classes,
     signs: (state) => state.signs,
     types: (state) => state.types,
+    correctClasses: (state) => state.correctClasses,
+    potentialClasses: (state) => state.potentialClasses,
   },
 });

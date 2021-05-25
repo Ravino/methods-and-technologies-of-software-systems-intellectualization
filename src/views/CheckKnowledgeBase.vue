@@ -17,8 +17,8 @@
       v-show="item.broken")
         v-list-item
           v-list-item-content
-            v-list-item-title {{item.name}}
-            v-list-item-subtitle {{item.broken ? 'Не пройдена': 'Пройдена'}}
+            v-list-item-title Класс: {{item.name}}
+            v-list-item-subtitle {{parseError(item.comment)}}
 </template>
 
 <script>
@@ -37,78 +37,91 @@ export default {
   methods: {
     checking() {
       for (let i = 0; i < this.classes.length; i += 1) {
-        if(!this.classes[i].signs.length) {
+        if (!this.classes[i].signs.length) {
           this.$store.dispatch('markerBrokenClass', { position: i, flag: true, comment: 'fewSign' });
+          // eslint-disable-next-line no-continue
           continue;
         }
 
-        for(let j = 0; j < this.classes[i].signs.length; j++) {
-          if(!this.types.includes(this.classes[i].signs[j].type)) {
+        for (let j = 0; j < this.classes[i].signs.length; j += 1) {
+          if (!this.types.includes(this.classes[i].signs[j].type)) {
             this.$store.dispatch('markerBrokenClass', { position: i, flag: true });
-            this.$store.dispatch('markerBrokenSignsForClassifier', {positionClass: i, positionSign: j, flag: true, comment: 'invalidType'});
+            this.$store.dispatch('markerBrokenSignsForClassifier', {
+              positionClass: i, positionSign: j, flag: true, comment: 'invalidType',
+            });
+            // eslint-disable-next-line no-continue
             continue;
           }
 
-
+          // eslint-disable-next-line max-len
           const resultCheck = this.checkValue(this.classes[i].signs[j].type, this.classes[i].signs[j].value);
-          if(resultCheck.result) {
+          if (resultCheck.result) {
+            // eslint-disable-next-line no-continue
             continue;
           }
-
 
           this.$store.dispatch('markerBrokenClass', { position: i, flag: true });
-          this.$store.dispatch('markerBrokenSignsForClassifier', {positionClass: i, positionSign: j, flag: true, comment: result.comment});
+          this.$store.dispatch('markerBrokenSignsForClassifier', {
+            // eslint-disable-next-line no-undef
+            positionClass: i, positionSign: j, flag: true, comment: result.comment,
+          });
         }
       }
+
+      console.log(this.classes);
 
       return null;
     },
 
     checkValue(type, value) {
-
       const obj = {
         result: true,
-        comment: null
+        comment: null,
       };
 
-
-      if(type == 'boolean' && typeof value[0] !== 'boolean') {
+      if (type === 'boolean' && typeof value[0] !== 'boolean') {
         obj.result = false;
         obj.comment = 'invalidValue';
         return obj;
       }
 
-
-      if(type == 'number' && isNaN(value[0])) {
+      // eslint-disable-next-line no-restricted-globals
+      if (type === 'number' && isNaN(value[0])) {
         obj.result = false;
         obj.comment = 'invalidValue';
         return obj;
       }
 
-
-      if(type == 'enum' && typeof value[0] !== 'string') {
+      if (type === 'enum' && typeof value[0] !== 'string') {
         obj.result = false;
         obj.comment = 'invalidValue';
         return obj;
       }
 
-
-      if(type == 'range' && isNaN(value[0]) && isNaN(value[1])) {
+      // eslint-disable-next-line no-restricted-globals
+      if (type === 'range' && isNaN(value[0]) && isNaN(value[1])) {
         obj.result = false;
         obj.comment = 'invalidValue';
         return obj;
       }
 
-
-      if(type == 'range' && (value[0] > value[1] || value[1] < value[0])) {
+      if (type === 'range' && (value[0] > value[1] || value[1] < value[0])) {
         obj.result = false;
         obj.comment = 'invalidValue';
         return obj;
       }
-
 
       return obj;
-    }
+    },
+
+    parseError(err) {
+      switch (err) {
+        case 'fewSign': return 'Недостаточно признаков';
+        case 'invalidValue': return 'Ошибка в значении/значениях';
+        default:
+          return err;
+      }
+    },
   },
 
   computed: {

@@ -41,13 +41,13 @@
               solo
               light
               placeholder="Мин. значение"
-              v-model="item.values[0]"
+              v-model="item.value[0]"
             )
             v-text-field(
               solo
               light
               placeholder="Макс. значение"
-              v-model="item.values[1]"
+              v-model="item.value[1]"
             )
 </template>
 
@@ -77,7 +77,7 @@ export default {
     selectedSign() {
       this.$store.dispatch('addSignToClass', {
         className: this.selectedClass.name,
-        sign: this.selectedSign,
+        sign: { ...this.selectedSign },
       });
     },
   },

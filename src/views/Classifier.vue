@@ -50,6 +50,7 @@ export default {
   methods: {
     search() {
       this.$store.dispatch('addSignsForClassifier', this.selectedSignsList);
+      this.$router.push({ name: 'classifierResult' });
     },
   },
 

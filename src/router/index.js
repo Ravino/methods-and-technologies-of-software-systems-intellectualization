@@ -5,6 +5,7 @@ import classEditor from '../views/ClassEditor.vue';
 import ClassWithSigns from '../views/ClassWithSigns.vue';
 import CheckKnowledgeBase from '../views/CheckKnowledgeBase.vue';
 import Classifier from '../views/Classifier.vue';
+import ClassifierResult from '../views/ClassifierResult.vue';
 
 Vue.use(VueRouter);
 
@@ -40,6 +41,12 @@ const routes = [
     path: '/classifier',
     name: 'classifier',
     component: Classifier,
+  },
+
+  {
+    path: '/classifierResult',
+    name: 'classifierResult',
+    component: ClassifierResult,
   },
 ];
 
