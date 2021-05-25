@@ -38,19 +38,77 @@ export default {
     checking() {
       for (let i = 0; i < this.classes.length; i += 1) {
         if(!this.classes[i].signs.length) {
+          this.$store.dispatch('markerBrokenClass', { position: i, flag: true, comment: 'fewSign' });
           continue;
         }
 
         for(let j = 0; j < this.classes.signs.length; j++) {
           if(!this.types.includes(this.classes[i].signs[j].type)) {
             this.$store.dispatch('markerBrokenClass', { position: i, flag: true });
-            this.$store.dispatch('markerBrokenSignsForClassifier', {positionClass: i, positionSign: j, flag: true});
+            this.$store.dispatch('markerBrokenSignsForClassifier', {positionClass: i, positionSign: j, flag: true, comment: 'invalidType'});
+            continue;
           }
+
+
+          const resultCheck = this.checkValue(this.classes[i].signs[j].type, this.classes[i].signs[j].value);
+          if(resultCheck.result) {
+            continue;
+          }
+
+
+          this.$store.dispatch('markerBrokenClass', { position: i, flag: true });
+          this.$store.dispatch('markerBrokenSignsForClassifier', {positionClass: i, positionSign: j, flag: true, comment: result.comment});
         }
       }
 
       return null;
     },
+
+    checkValue(type, value) {
+
+      const obj = {
+        result: true,
+        comment: null
+      };
+
+
+      if(type == 'boolean' && typeof value[0] !== 'boolean') {
+        obj.result = false;
+        obj.comment = 'invalidValue';
+        return obj;
+      }
+
+
+      if(type == 'number' && isNaN(value[0])) {
+        obj.result = false;
+        obj.comment = 'invalidValue';
+        return obj;
+      }
+
+
+      if(type == 'enum' && typeof value[0] !== 'string') {
+        obj.result = false;
+        obj.comment = 'invalidValue';
+        return obj;
+      }
+
+
+      if(type == 'range' && isNaN(value[0]) && isNaN(value[1])) {
+        obj.result = false;
+        obj.comment = 'invalidValue';
+        return obj;
+      }
+
+
+      if(type == 'range' && (value[0] > value[1] || value[1] < value[0])) {
+        obj.result = false;
+        obj.comment = 'invalidValue';
+        return obj;
+      }
+
+
+      return obj;
+    }
   },
 
   computed: {

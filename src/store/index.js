@@ -23,12 +23,14 @@ export default new Vuex.Store({
       }
 
       state.classes[data.position].broken = data.flag;
+      state.classes[data.position].comment = data.comment;
     },
 
     addClass(state, data) {
       const newClass = Object.assign(data, {});
       newClass.signs = [];
       newClass.broken = false;
+      newClass.comment = null;
       state.classes.push(data);
     },
 
@@ -42,6 +44,7 @@ export default new Vuex.Store({
       sign.values = [0, 0];
       sign.type = null;
       sign.broken = false;
+      sign.comment = null;
       state.signs.push(sign);
     },
 
@@ -65,6 +68,7 @@ export default new Vuex.Store({
 
 
       state.classes[data.positionClass].signs[data.positionSign].broken = data.flag;
+      state.classes[data.positionClass].signs[data.positionSign].comment = data.comment;
     },
   },
 
