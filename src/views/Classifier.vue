@@ -16,12 +16,15 @@
 
         v-sheet.sign
           v-row( no-gutters )
+            v-col( cols="4" align="center" ) Действие
             v-col( cols="4" align="center" ) Имя
             v-col( cols="4" align="center" ) Тип
             v-col( cols="4" align="center" ) Значение
 
-        v-sheet.sign( v-for="item in selectedSignsList" :key="item.name" )
+        v-sheet.sign( v-for="(item, index) in selectedSignsList" :key="item.name" )
           v-row( no-gutters )
+            v-col( cols="4" align="center" )
+              v-icon(@click="removeSignForClassifier(index)") mdi-delete
             v-col( cols="4" align="center" ) {{item.name}}
             v-col( cols="4" align="center" ) {{item.type}}
             v-col( cols="4" align="center" )
@@ -85,6 +88,11 @@ export default {
   },
 
   methods: {
+    removeSignForClassifier(signPosition) {
+      this.selectedSignsList.splice(signPosition, 1);
+      return null;
+    },
+
     search() {
       this.$store.dispatch('addSignsForClassifier', []);
       this.$store.dispatch('addSignsForClassifier', this.selectedSignsList);
@@ -152,6 +160,14 @@ export default {
 
   watch: {
     selectedSign() {
+
+      const item = this.selectedSignsList.find(x => x.name == this.selectedSign.name);
+      if(item) {
+        alert("Данный признак не может быть выбран повторно");
+        return null;
+      }
+
+
       const sign = {};
       sign.name = this.selectedSign.name;
       sign.type = this.selectedSign.type;
