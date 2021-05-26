@@ -25,16 +25,53 @@
             v-col( cols="4" align="center" ) {{item.name}}
             v-col( cols="4" align="center" ) {{item.type}}
             v-col( cols="4" align="center" )
+              v-container(
+                v-show="!item.type"
+                fluid
+              ) Тип признака не определён, значение не может быть задано
+              v-checkbox(
+                v-show="item.type=='boolean'"
+                :label="`В наличии`"
+                v-model="item.value[0]"
+              )
               v-text-field(
+                v-show="item.type=='enum'"
                 solo
                 dense
                 light
                 hide-details
                 placeholder="Значение"
-                v-model="item.value"
+                v-model="item.value[0]"
+              )
+              v-text-field(
+                v-show="item.type=='number'"
+                solo
+                dense
+                light
+                hide-details
+                placeholder="Значение"
+                v-model="item.value[0]"
+              )
+              v-text-field(
+                v-show="item.type=='range'"
+                solo
+                dense
+                light
+                hide-details
+                placeholder="Мин. Значение"
+                v-model="item.value[0]"
+              )
+              v-text-field(
+                v-show="item.type=='range'"
+                solo
+                dense
+                light
+                hide-details
+                placeholder="Макс. Значение"
+                v-model="item.value[1]"
               )
         v-row.btn( justify="center" no-gutters align="center" v-if="selectedSignsList.length")
-          v-btn( @click="search" ) Ок, погнали
+          v-btn( @click="search" ) Поиск
 </template>
 
 <script>
@@ -118,7 +155,7 @@ export default {
       const sign = {};
       sign.name = this.selectedSign.name;
       sign.type = this.selectedSign.type;
-      sign.value = null;
+      sign.value = [];
 
       this.selectedSignsList.push(sign);
     },

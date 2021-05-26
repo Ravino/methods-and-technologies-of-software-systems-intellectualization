@@ -79,6 +79,14 @@ export default {
         return null;
       }
 
+      const item = this.signs.find(x => x.name == this.signName);
+      if(item) {
+        alert("Данное имя признака уже занято");
+        this.signName = null;
+        return null;
+      }
+
+
       this.$store.dispatch('addSign', { name: this.signName });
       this.signName = null;
 

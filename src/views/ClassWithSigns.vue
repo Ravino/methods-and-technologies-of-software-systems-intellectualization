@@ -40,7 +40,8 @@
             )
             v-container(
               v-show="!item.type"
-            ) Тип признака не определён, значение не может быть установлено
+              fluid
+            ) Тип признака не определён, значение не может быть задано
             v-checkbox(
               v-show="item.type=='boolean'"
               v-model="item.value[0]"
@@ -106,6 +107,13 @@ export default {
 
   watch: {
     selectedSign() {
+
+      const item = this.selectedClass.signs.find(x => x.name == this.selectedSign.name);
+      if(item) {
+        alert("Данный признак не может быть повторно назначен классу");
+        return null;
+      }
+
       this.$store.dispatch('addSignToClass', {
         className: this.selectedClass.name,
         sign: JSON.stringify(this.selectedSign),

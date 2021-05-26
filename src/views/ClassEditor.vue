@@ -65,6 +65,14 @@ export default {
         return null;
       }
 
+      const item = this.classes.find(x => x.name === this.className);
+      if(item) {
+        alert("Данное имя класса уже занято");
+        this.className = null;
+        return null;
+      }
+
+
       this.$store.dispatch('addClass', { name: this.className });
       this.className = null;
 
