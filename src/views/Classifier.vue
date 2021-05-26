@@ -17,63 +17,70 @@
 
         v-sheet.sign
           v-row( no-gutters )
-            v-col( cols="4" align="center" ) Действие
-            v-col( cols="4" align="center" ) Имя
-            v-col( cols="4" align="center" ) Тип
-            v-col( cols="4" align="center" ) Значение
+            v-col( cols="3" align="center" )
+              v-row.center-row( justify="center" no-gutters align="center" ) Имя
+            v-col( cols="2" align="center" )
+              v-row.center-row( justify="center" no-gutters align="center" ) Тип
+            v-col( cols="6" align="center" )
+              v-row.center-row( justify="center" no-gutters align="center" ) Значение
+            v-col( cols="1" align="center" )
+              v-row.center-row( justify="center" no-gutters align="center" ) Действие
 
         v-sheet.sign( v-for="(item, index) in selectedSignsList" :key="item.name" )
           v-row( no-gutters )
-            v-col( cols="4" align="center" )
+            v-col( cols="3" align="center" )
+              v-row.center-row( justify="center" no-gutters align="center" ) {{item.name}}
+            v-col( cols="2" align="center" )
+              v-row.center-row( justify="center" no-gutters align="center" ) {{item.type}}
+            v-col( cols="6" align="center" )
+              v-row( justify="center" no-gutters align="center" )
+                v-container(
+                  v-show="!item.type"
+                  fluid
+                ) Тип признака не определён, значение не может быть задано
+                v-checkbox(
+                  v-show="item.type=='boolean'"
+                  :label="`В наличии`"
+                  v-model="item.value[0]"
+                )
+                v-text-field.my-text-field-50(
+                  v-show="item.type=='enum'"
+                  solo
+                  dense
+                  light
+                  hide-details
+                  placeholder="Значение"
+                  v-model="item.value[0]"
+                )
+                v-text-field.my-text-field-50(
+                  v-show="item.type=='number'"
+                  solo
+                  dense
+                  light
+                  hide-details
+                  placeholder="Значение"
+                  v-model="item.value[0]"
+                )
+                v-text-field.my-text-field-50(
+                  v-show="item.type=='range'"
+                  solo
+                  dense
+                  light
+                  hide-details
+                  placeholder="Мин. Значение"
+                  v-model="item.value[0]"
+                )
+                v-text-field.my-text-field-50(
+                  v-show="item.type=='range'"
+                  solo
+                  dense
+                  light
+                  hide-details
+                  placeholder="Макс. Значение"
+                  v-model="item.value[1]"
+                )
+            v-col( cols="1" align="center" )
               v-icon(@click="removeSignForClassifier(index)") mdi-delete
-            v-col( cols="4" align="center" ) {{item.name}}
-            v-col( cols="4" align="center" ) {{item.type}}
-            v-col( cols="4" align="center" )
-              v-container(
-                v-show="!item.type"
-                fluid
-              ) Тип признака не определён, значение не может быть задано
-              v-checkbox(
-                v-show="item.type=='boolean'"
-                :label="`В наличии`"
-                v-model="item.value[0]"
-              )
-              v-text-field(
-                v-show="item.type=='enum'"
-                solo
-                dense
-                light
-                hide-details
-                placeholder="Значение"
-                v-model="item.value[0]"
-              )
-              v-text-field(
-                v-show="item.type=='number'"
-                solo
-                dense
-                light
-                hide-details
-                placeholder="Значение"
-                v-model="item.value[0]"
-              )
-              v-text-field(
-                v-show="item.type=='range'"
-                solo
-                dense
-                light
-                hide-details
-                placeholder="Мин. Значение"
-                v-model="item.value[0]"
-              )
-              v-text-field(
-                v-show="item.type=='range'"
-                solo
-                dense
-                light
-                hide-details
-                placeholder="Макс. Значение"
-                v-model="item.value[1]"
-              )
         v-row.btn( justify="center" no-gutters align="center" v-if="selectedSignsList.length")
           v-btn( @click="search" ) Поиск
 </template>
@@ -162,14 +169,13 @@ export default {
   },
 
   watch: {
+    // eslint-disable-next-line consistent-return
     selectedSign() {
-
-      const item = this.selectedSignsList.find(x => x.name == this.selectedSign.name);
-      if(item) {
-        alert("Данный признак не может быть выбран повторно");
+      const item = this.selectedSignsList.find((x) => x.name === this.selectedSign.name);
+      if (item) {
+        alert('Данный признак не может быть выбран повторно');
         return null;
       }
-
 
       const sign = {};
       sign.name = this.selectedSign.name;
@@ -188,8 +194,8 @@ export default {
   }
 
   .signs-wrp, .all-signs {
-    width 30%
-    max-width 30%
+    width 60%
+    max-width 60%
   }
 
   .sign {
@@ -198,5 +204,15 @@ export default {
 
   .btn {
     margin-top 15px
+  }
+
+  .my-text-field-50 {
+    max-width 50%
+    width 50%
+    padding 0 5px
+  }
+
+  .center-row {
+    height 100%
   }
 </style>
