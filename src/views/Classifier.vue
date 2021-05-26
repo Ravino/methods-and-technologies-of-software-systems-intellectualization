@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 <template lang="pug">
   .wrp
     v-row( justify="center" no-gutters align="center" )
@@ -96,49 +97,48 @@ export default {
     },
 
     handler() {
-
-      for(let currentClass of this.classes) {
-
-        if(!currentClass.signs.length) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const currentClass of this.classes) {
+        if (!currentClass.signs.length) {
           this.$store.dispatch('addPotentialClass', currentClass);
+          // eslint-disable-next-line no-continue
           continue;
         }
 
-
         let flag = false;
-        for(let signForClassifier of this.signsForClassifier) {
-
-          for(let sign of currentClass.signs) {
-
-            if(sign.name == signForClassifier.name && sign.type == signForClassifier.type && JSON.stringify(sign.value) == JSON.stringify(signForClassifier.value)) {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const signForClassifier of this.signsForClassifier) {
+          // eslint-disable-next-line no-restricted-syntax
+          for (const sign of currentClass.signs) {
+            // eslint-disable-next-line max-len
+            if (sign.name === signForClassifier.name && sign.type === signForClassifier.type && JSON.stringify(sign.value) === JSON.stringify(signForClassifier.value)) {
               flag = true;
               break;
             }
 
-            if(sign.name == signForClassifier.name && sign.type == signForClassifier.type) {
+            if (sign.name === signForClassifier.name && sign.type === signForClassifier.type) {
               flag = false;
               break;
             }
 
-            if(sign.name == signForClassifier.name) {
+            if (sign.name === signForClassifier.name) {
               flag = false;
               break;
             }
           }
         }
 
-
-        if(flag) {
+        if (flag) {
           this.$store.dispatch('addCorrectClass', currentClass);
+          // eslint-disable-next-line no-continue
           continue;
         }
-
 
         this.$store.dispatch('addPotentialClass', currentClass);
       }
 
       return null;
-    }
+    },
   },
 
   computed: {
@@ -147,7 +147,10 @@ export default {
     },
     signsForClassifier() {
       return this.$store.getters.signsForClassifier;
-    }
+    },
+    classes() {
+      return this.$store.getters.classes;
+    },
   },
 
   watch: {

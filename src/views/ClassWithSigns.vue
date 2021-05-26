@@ -91,7 +91,7 @@ export default {
 
   methods: {
     removeSignToClass(currentClass, signPosition) {
-      this.$store.dispatch('removeSignToClass', { className: currentClass.name, signPosition: signPosition });
+      this.$store.dispatch('removeSignToClass', { className: currentClass.name, signPosition });
     },
   },
 
@@ -106,12 +106,16 @@ export default {
   },
 
   watch: {
+    // eslint-disable-next-line consistent-return
     selectedSign() {
-
-      const item = this.selectedClass.signs.find(x => x.name == this.selectedSign.name);
-      if(item) {
-        alert("Данный признак не может быть повторно назначен классу");
+      const item = this.selectedClass.signs.find((x) => x.name === this.selectedSign.name);
+      if (item) {
+        alert('Данный признак не может быть повторно назначен классу');
         return null;
+      }
+
+      if (this.selectedSign.type === 'boolean') {
+        this.selectedSign.value = [false];
       }
 
       this.$store.dispatch('addSignToClass', {

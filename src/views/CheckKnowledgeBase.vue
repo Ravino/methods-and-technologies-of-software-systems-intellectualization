@@ -45,7 +45,7 @@ export default {
 
         for (let j = 0; j < this.classes[i].signs.length; j += 1) {
           if (!this.types.includes(this.classes[i].signs[j].type)) {
-            this.$store.dispatch('markerBrokenClass', { position: i, flag: true });
+            this.$store.dispatch('markerBrokenClass', { position: i, flag: true, comment: 'invalidType' });
             this.$store.dispatch('markerBrokenSignsForClassifier', {
               positionClass: i, positionSign: j, flag: true, comment: 'invalidType',
             });
@@ -56,14 +56,18 @@ export default {
           // eslint-disable-next-line max-len
           const resultCheck = this.checkValue(this.classes[i].signs[j].type, this.classes[i].signs[j].value);
           if (resultCheck.result) {
+            this.$store.dispatch('markerBrokenClass', { position: i, flag: false, comment: resultCheck.comment });
+            this.$store.dispatch('markerBrokenSignsForClassifier', {
+            // eslint-disable-next-line no-undef
+              positionClass: i, positionSign: j, flag: false, comment: resultCheck.comment,
+            });
             // eslint-disable-next-line no-continue
             continue;
           }
 
-          this.$store.dispatch('markerBrokenClass', { position: i, flag: true });
+          this.$store.dispatch('markerBrokenClass', { position: i, flag: true, comment: resultCheck.comment });
           this.$store.dispatch('markerBrokenSignsForClassifier', {
-            // eslint-disable-next-line no-undef
-            positionClass: i, positionSign: j, flag: true, comment: result.comment,
+            positionClass: i, positionSign: j, flag: true, comment: resultCheck.comment,
           });
         }
       }
@@ -118,6 +122,7 @@ export default {
       switch (err) {
         case 'fewSign': return 'Недостаточно признаков';
         case 'invalidValue': return 'Ошибка в значении/значениях';
+        case 'invalidType': return 'Ошибка в типе признака';
         default:
           return err;
       }

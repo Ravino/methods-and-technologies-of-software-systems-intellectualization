@@ -1,6 +1,6 @@
 <template lang="pug">
   .wrp
-    v-row( justify="center" no-gutters align="center" )
+    v-row( no-gutters )
       v-col( cols="6" )
         v-list( subheader dark )
           v-subheader Подходящие классы

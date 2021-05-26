@@ -62,7 +62,7 @@ export default new Vuex.Store({
     },
 
     removeSignToClass(state, data) {
-      const item = state.classes.find(x => x.name === data.className);
+      const item = state.classes.find((x) => x.name === data.className);
       item.signs.splice(data.signPosition, 1);
     },
 
@@ -88,11 +88,12 @@ export default new Vuex.Store({
       state.potentialClasses.push(data);
     },
 
+    // eslint-disable-next-line no-unused-vars
     recoveryCorrectClass(state, data) {
       state.correctClasses = [];
     },
 
-    recoveryPotentialClass(state, data) {
+    recoveryPotentialClass(state) {
       state.potentialClasses = [];
     },
   },
@@ -157,6 +158,6 @@ export default new Vuex.Store({
     types: (state) => state.types,
     correctClasses: (state) => state.correctClasses,
     potentialClasses: (state) => state.potentialClasses,
-    signsForClassifier: (state) => state.signsForClassifier
+    signsForClassifier: (state) => state.signsForClassifier,
   },
 });
